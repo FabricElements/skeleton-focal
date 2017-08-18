@@ -1,0 +1,217 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
+
+<dom-module id="fabric-focal-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        box-sizing: content-box;
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
+        background-color: black;
+        margin: 2rem auto;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
+
+      :host * {
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      #box {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+      }
+
+      #drag {
+        height: 2rem;
+        width: 2rem;
+        box-shadow: 0 0 3px rgba(0, 0, 0, .4);
+        display: block;
+        position: absolute;
+        transform: translate(-1rem, -1rem);
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, .3);
+        z-index: 3;
+        cursor: move;
+        border: 5px solid white;
+        box-sizing: border-box;
+        opacity: 1;
+        transition: opacity ease-in-out 1s;
+      }
+
+      img {
+        display: block;
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        width: inherit;
+        height: inherit;
+        max-width: 100%;
+      }
+
+      [faded] {
+        opacity: 0;
+      }
+    </style>
+
+    <img src$="[[src]]"
+         on-load="_imgChange">
+    <div id="box"
+         on-track="_move"
+         faded$="[[!loaded]]">
+      <div id="drag"
+           on-dblclick="_reset"
+           style$="left: [[_calcPX(loaded, x, 'width')]]; top: [[_calcPX(loaded, y, 'height')]];"
+      ></div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `fabric-focal-editor`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class FabricFocalEditor extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() {
+        return 'fabric-focal-editor';
+      }
+
+      static get properties() {
+        return {
+          src: {
+            type: String,
+            value: null,
+          },
+          data: {
+            type: Object,
+            value: null,
+          },
+          x: {
+            type: Number,
+            value: 0.5,
+            reflectToAttribute: true,
+            notify: true,
+          },
+          y: {
+            type: Number,
+            value: 0.5,
+            reflectToAttribute: true,
+            notify: true,
+          },
+          loaded: {
+            type: Boolean,
+            value: false,
+          },
+        };
+      }
+
+      ready() {
+        super.ready();
+      }
+
+      constructor() {
+        super();
+      }
+
+
+      static get observers() {
+        return [
+//          "_finalData(finalTop, finalLeft)"
+        ];
+      }
+
+      _imgChange(event) {
+//        console.log("mee", event);
+        setTimeout(() => {
+          this.loaded = true;
+        }, 3000);
+      }
+
+      _calcPX(loaded, value, type) {
+        if (!loaded) return;
+
+        let base = 1;
+
+        if (type === 'height') {
+          base = this.offsetHeight ? this.offsetHeight : 1;
+        } else if (type === 'width') {
+          base = this.offsetWidth ? this.offsetWidth : 1;
+        }
+
+        if (!this._isNumber(value)) {
+          value = 0.5;
+        }
+        let position = ((base / 2) * value) / 0.5;
+
+        return `${position}px`;
+      }
+
+      _isNumber(n) {
+        return typeof n === 'number' && !isNaN(n) && isFinite(n);
+      }
+
+      _move(event) {
+        const data = event.detail;
+        const y = data.ddy ? data.ddy : 0;
+        const x = data.ddx ? data.ddx : 0;
+        const width = this.offsetWidth;
+        const height = this.offsetHeight;
+        let finalY = (y * 0.5) / (height / 2);
+        let finalX = (x * 0.5) / (width / 2);
+        let finalTop = this.y + finalY;
+        let finalLeft = this.x + finalX;
+
+        if (finalTop < 0) {
+          finalTop = 0;
+        } else if (finalTop > 1) {
+          finalTop = 1;
+        }
+
+        if (finalLeft < 0) {
+          finalLeft = 0;
+        } else if (finalLeft > 1) {
+          finalLeft = 1;
+        }
+
+
+        if (finalTop >= 0 && finalTop < 1) {
+          finalTop = this._fixDecimals(finalTop);
+        }
+
+        if (finalLeft > 0 && finalLeft < 1) {
+          finalLeft = this._fixDecimals(finalLeft);
+        }
+
+        this.y = finalTop;
+        this.x = finalLeft;
+      }
+
+      _fixDecimals(value, decimals = 2) {
+        return (String(value).indexOf('.') !== -1) ? +
+          value.toPrecision(String(value).indexOf('.') + decimals) : +
+          value.toFixed(decimals);
+      }
+
+      _reset() {
+        this.y = 0.5;
+        this.x = 0.5;
+      }
+    }
+
+    window.customElements.define(FabricFocalEditor.is, FabricFocalEditor);
+  </script>
+</dom-module>
