@@ -214,23 +214,8 @@
           finalLeft = 1;
         }
 
-
-        if (finalTop >= 0 && finalTop < 1) {
-          finalTop = this._fixDecimals(finalTop);
-        }
-
-        if (finalLeft > 0 && finalLeft < 1) {
-          finalLeft = this._fixDecimals(finalLeft);
-        }
-
-        this.y = finalTop;
-        this.x = finalLeft;
-      }
-
-      _fixDecimals(value, decimals = 2) {
-        return (String(value).indexOf('.') !== -1) ? +
-          value.toPrecision(String(value).indexOf('.') + decimals) : +
-          value.toFixed(decimals);
+        this.y = Number(finalTop.toFixed(3));
+        this.x = Number(finalLeft.toFixed(3));
       }
 
       _reset() {
