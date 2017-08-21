@@ -34,20 +34,36 @@
       }
 
       #drag {
-        height: 2rem;
-        width: 2rem;
-        box-shadow: 0 0 3px rgba(0, 0, 0, .8), 0 0 4px rgba(0, 0, 0, .4);
         display: block;
         position: absolute;
-        transform: translate(-1rem, -1rem);
+        height: 0;
+        width: 0;
+        top: 50%;
+        left: 50%;
+        z-index: 3;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      #icon-container {
+        position: relative;
+      }
+
+      #dragIcon {
+        display: block;
+        position: absolute;
+        height: var(--focal-icon-size, 2rem);
+        width: var(--focal-icon-size, 2rem);
+        top: calc(-1 * var(--focal-icon-size, 2rem) / 2);
+        left: calc(-1 * var(--focal-icon-size, 2rem) / 2);
+        box-sizing: border-box;
+        cursor: move;
+        box-shadow: 0 0 3px rgba(0, 0, 0, .8), 0 0 4px rgba(0, 0, 0, .4);
         border-radius: 50%;
         background-color: rgba(0, 0, 0, .3);
-        z-index: 3;
-        cursor: move;
         border: 5px solid white;
-        box-sizing: border-box;
-        opacity: 1;
         transition: opacity ease-in-out 1s;
+        @apply --focal-icon;
       }
 
       img {
@@ -63,10 +79,6 @@
       [faded] {
         opacity: 0;
       }
-
-      [hidden] {
-        display: none;
-      }
     </style>
 
     <img src$="[[src]]"
@@ -75,10 +87,13 @@
          on-track="_move"
          faded$="[[!loaded]]">
       <div id="drag"
-           on-dblclick="_reset"
-           hidden$="[[!canDrag]]"
-           style$="left: [[_calcPX(loaded, x)]]; top: [[_calcPX(loaded, y)]];"
-      ></div>
+           faded$="[[!canDrag]]"
+           style$="left: [[_calcPX(loaded, x)]]; top: [[_calcPX(loaded, y)]];">
+        <div id="icon-container">
+          <div id="dragIcon"
+               on-dblclick="reset"></div>
+        </div>
+      </div>
     </div>
   </template>
 
@@ -134,18 +149,11 @@
 
       ready() {
         super.ready();
-        this.addEventListener('iron-resize', (e) => this._onIronResize(e));
+        this.addEventListener('iron-resize', (e) => this._recalculatePosition());
       }
 
       constructor() {
         super();
-      }
-
-
-      static get observers() {
-        return [
-//          "_finalData(finalTop, finalLeft)"
-        ];
       }
 
       _recalculatePosition() {
@@ -153,10 +161,6 @@
         drag.style.left = this._calcPX(true, this.x);
         drag.style.top = this._calcPX(true, this.y);
         this.canDrag = true;
-      }
-
-      _onIronResize(e) {
-        this._recalculatePosition();
       }
 
       _imgChange(event) {
@@ -201,7 +205,7 @@
         this.x = Number(finalLeft.toFixed(3));
       }
 
-      _reset() {
+      reset() {
         this.y = 0.5;
         this.x = 0.5;
       }
