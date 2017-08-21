@@ -197,8 +197,8 @@
         const x = data.ddx ? data.ddx : 0;
         const width = this.offsetWidth;
         const height = this.offsetHeight;
-        let finalY = (y * 0.5) / (height / 2);
-        let finalX = (x * 0.5) / (width / 2);
+        let finalY = y / height;
+        let finalX = x / width;
         let finalTop = this.y + finalY;
         let finalLeft = this.x + finalX;
 
