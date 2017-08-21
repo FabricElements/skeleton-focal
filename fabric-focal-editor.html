@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 
 <dom-module id="fabric-focal-editor">
   <template>
@@ -35,7 +36,7 @@
       #drag {
         height: 2rem;
         width: 2rem;
-        box-shadow: 0 0 3px rgba(0, 0, 0, .4);
+        box-shadow: 0 0 3px rgba(0, 0, 0, .8), 0 0 4px rgba(0, 0, 0, .4);
         display: block;
         position: absolute;
         transform: translate(-1rem, -1rem);
@@ -62,6 +63,10 @@
       [faded] {
         opacity: 0;
       }
+
+      [hidden] {
+        display: none;
+      }
     </style>
 
     <img src$="[[src]]"
@@ -71,6 +76,7 @@
          faded$="[[!loaded]]">
       <div id="drag"
            on-dblclick="_reset"
+           hidden$="[[!canDrag]]"
            style$="left: [[_calcPX(loaded, x, 'width')]]; top: [[_calcPX(loaded, y, 'height')]];"
       ></div>
     </div>
@@ -85,7 +91,10 @@
      * @polymer
      * @demo demo/index.html
      */
-    class FabricFocalEditor extends Polymer.GestureEventListeners(Polymer.Element) {
+    class FabricFocalEditor extends Polymer.mixinBehaviors(
+      [Polymer.IronResizableBehavior],
+      Polymer.GestureEventListeners(Polymer.Element)
+    ) {
       static get is() {
         return 'fabric-focal-editor';
       }
@@ -116,11 +125,16 @@
             type: Boolean,
             value: false,
           },
+          canDrag: {
+            type: Boolean,
+            value: false,
+          },
         };
       }
 
       ready() {
         super.ready();
+        this.addEventListener('iron-resize', (e) => this._onIronResize(e));
       }
 
       constructor() {
@@ -134,23 +148,24 @@
         ];
       }
 
-      _imgChange(event) {
-        console.log("event load");
+      _recalculatePosition() {
+        const drag = this.shadowRoot.querySelector('#drag');
+        drag.style.left = this._calcPX(true, this.x, 'width');
+        drag.style.top = this._calcPX(true, this.y, 'height');
+        this.canDrag = true;
+      }
 
-        const element = this.shadowRoot.querySelector("img");
+      _onIronResize(e) {
+        this._recalculatePosition();
+      }
+
+      _imgChange(event) {
+        this.loaded = true;
         Polymer.RenderStatus.afterNextRender(event, () => {
-//          this.loaded = true;
           setTimeout(() => {
-            console.log("hello");
-            this.loaded = true;
+            this._recalculatePosition();
           }, 3000);
         });
-
-
-//        console.log("mee", event);
-//        setTimeout(() => {
-//          this.loaded = true;
-//        }, 3000);
       }
 
       _calcPX(loaded, value, type) {
