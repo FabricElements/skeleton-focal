@@ -4,36 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-  <title>fabric-focal test</title>
+  <title>skeleton-focal test</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
 
-  <link rel="import" href="../fabric-focal.html">
+  <link rel="import" href="../skeleton-focal.html">
 </head>
 <body>
 
 <test-fixture id="BasicTestFixture">
   <template>
-    <fabric-focal></fabric-focal>
+    <skeleton-focal></skeleton-focal>
   </template>
 </test-fixture>
 
 <test-fixture id="ChangedPropertyTestFixture">
   <template>
-    <fabric-focal prop1="new-prop1"></fabric-focal>
+    <skeleton-focal prop1="new-prop1"></skeleton-focal>
   </template>
 </test-fixture>
 
 <script>
-  suite('fabric-focal', function () {
+  suite('skeleton-focal', function () {
 
     test('instantiating the element with default properties works', function () {
       var element = fixture('BasicTestFixture');
-      assert.equal(element.prop1, 'fabric-focal');
+      assert.equal(element.prop1, 'skeleton-focal');
       var elementShadowRoot = element.shadowRoot;
       var elementHeader = elementShadowRoot.querySelector('h2');
-      assert.equal(elementHeader.innerHTML, 'Hello fabric-focal!');
+      assert.equal(elementHeader.innerHTML, 'Hello skeleton-focal!');
     });
 
     test('setting a property on the element works', function () {
