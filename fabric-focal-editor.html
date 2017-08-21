@@ -135,10 +135,22 @@
       }
 
       _imgChange(event) {
+        console.log("event load");
+
+        const element = this.shadowRoot.querySelector("img");
+        Polymer.RenderStatus.afterNextRender(event, () => {
+//          this.loaded = true;
+          setTimeout(() => {
+            console.log("hello");
+            this.loaded = true;
+          }, 3000);
+        });
+
+
 //        console.log("mee", event);
-        setTimeout(() => {
-          this.loaded = true;
-        }, 3000);
+//        setTimeout(() => {
+//          this.loaded = true;
+//        }, 3000);
       }
 
       _calcPX(loaded, value, type) {
