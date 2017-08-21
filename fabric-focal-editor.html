@@ -77,7 +77,7 @@
       <div id="drag"
            on-dblclick="_reset"
            hidden$="[[!canDrag]]"
-           style$="left: [[_calcPX(loaded, x, 'width')]]; top: [[_calcPX(loaded, y, 'height')]];"
+           style$="left: [[_calcPX(loaded, x)]]; top: [[_calcPX(loaded, y)]];"
       ></div>
     </div>
   </template>
@@ -150,8 +150,8 @@
 
       _recalculatePosition() {
         const drag = this.shadowRoot.querySelector('#drag');
-        drag.style.left = this._calcPX(true, this.x, 'width');
-        drag.style.top = this._calcPX(true, this.y, 'height');
+        drag.style.left = this._calcPX(true, this.x);
+        drag.style.top = this._calcPX(true, this.y);
         this.canDrag = true;
       }
 
@@ -168,27 +168,10 @@
         });
       }
 
-      _calcPX(loaded, value, type) {
+      _calcPX(loaded, value) {
         if (!loaded) return;
 
-        let base = 1;
-
-        if (type === 'height') {
-          base = this.offsetHeight ? this.offsetHeight : 1;
-        } else if (type === 'width') {
-          base = this.offsetWidth ? this.offsetWidth : 1;
-        }
-
-        if (!this._isNumber(value)) {
-          value = 0.5;
-        }
-        let position = ((base / 2) * value) / 0.5;
-
-        return `${position}px`;
-      }
-
-      _isNumber(n) {
-        return typeof n === 'number' && !isNaN(n) && isFinite(n);
+        return `${value * 100}%`;
       }
 
       _move(event) {
