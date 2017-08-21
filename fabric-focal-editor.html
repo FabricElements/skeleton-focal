@@ -197,8 +197,8 @@
         const x = data.ddx ? data.ddx : 0;
         const width = this.offsetWidth;
         const height = this.offsetHeight;
-        let finalY = (y * 0.5) / (height / 2);
-        let finalX = (x * 0.5) / (width / 2);
+        let finalY = y / height;
+        let finalX = x / width;
         let finalTop = this.y + finalY;
         let finalLeft = this.x + finalX;
 
@@ -214,23 +214,8 @@
           finalLeft = 1;
         }
 
-
-        if (finalTop >= 0 && finalTop < 1) {
-          finalTop = this._fixDecimals(finalTop);
-        }
-
-        if (finalLeft > 0 && finalLeft < 1) {
-          finalLeft = this._fixDecimals(finalLeft);
-        }
-
-        this.y = finalTop;
-        this.x = finalLeft;
-      }
-
-      _fixDecimals(value, decimals = 2) {
-        return (String(value).indexOf('.') !== -1) ? +
-          value.toPrecision(String(value).indexOf('.') + decimals) : +
-          value.toFixed(decimals);
+        this.y = Number(finalTop.toFixed(3));
+        this.x = Number(finalLeft.toFixed(3));
       }
 
       _reset() {
