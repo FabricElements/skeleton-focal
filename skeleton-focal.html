@@ -1,6 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
-<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../iron-image/iron-image.html">
 
 <dom-module id="skeleton-focal">
@@ -113,10 +112,7 @@
      * @polymer
      * @demo demo/index.html
      */
-    class SkeletonFocal extends Polymer.mixinBehaviors([
-        Polymer.IronResizableBehavior,
-      ],
-      Polymer.GestureEventListeners(Polymer.Element)) {
+    class SkeletonFocal extends Polymer.GestureEventListeners(Polymer.Element) {
 
       static get is() {
         return 'skeleton-focal';
@@ -194,18 +190,6 @@
 
       constructor() {
         super();
-        this.addEventListener('iron-resize', (e) => this._recalculatePosition());
-      }
-
-      /**
-       * Recalculate and change position
-       *
-       * @private
-       */
-      _recalculatePosition() {
-        const drag = this.shadowRoot.querySelector('#drag');
-        drag.style.left = this._calcPercentage(this.x);
-        drag.style.top = this._calcPercentage(this.y);
       }
 
       /**
@@ -217,7 +201,6 @@
       _loaded(e) {
         const status = !!e.detail.value;
         this._setLoaded(status);
-        if (status) this._recalculatePosition();
       }
 
       /**
