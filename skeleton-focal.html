@@ -1,14 +1,15 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../iron-image/iron-image.html">
 
 <dom-module id="skeleton-focal">
   <template>
-    <style>
+    <style is="custom-style">
       :host {
         display: block;
         position: relative;
-        box-sizing: content-box;
+        box-sizing: border-box;
         -webkit-user-select: none;
         -webkit-user-drag: none;
         background-color: black;
@@ -16,6 +17,12 @@
         width: 100%;
         max-width: 100%;
         height: auto;
+        /* Default icon size */
+        --focal-icon-size: 2rem;
+        /* Styles for the icon */
+        --focal-icon: {
+
+        };
       }
 
       :host * {
@@ -43,19 +50,15 @@
         z-index: 3;
         opacity: 1;
         box-sizing: border-box;
-      }
-
-      #icon-container {
-        position: relative;
+        border: 1px solid red;
       }
 
       #dragIcon {
         display: block;
-        position: absolute;
-        height: var(--focal-icon-size, 2rem);
-        width: var(--focal-icon-size, 2rem);
-        top: calc(-1 * var(--focal-icon-size, 2rem) / 2);
-        left: calc(-1 * var(--focal-icon-size, 2rem) / 2);
+        height: var(--focal-icon-size);
+        width: var(--focal-icon-size);
+        margin-top: calc(-1 * var(--focal-icon-size) / 2);
+        margin-left: calc(-1 * var(--focal-icon-size) / 2);
         box-sizing: border-box;
         cursor: move;
         box-shadow: 0 0 3px rgba(0, 0, 0, .8), 0 0 4px rgba(0, 0, 0, .4);
@@ -66,7 +69,7 @@
         @apply --focal-icon;
       }
 
-      img {
+      iron-image {
         display: block;
         position: relative;
         z-index: 1;
@@ -74,6 +77,7 @@
         width: inherit;
         height: inherit;
         max-width: 100%;
+        --iron-image-width: 100%;
       }
 
       [faded] {
@@ -81,18 +85,21 @@
       }
     </style>
 
-    <img src$="[[src]]"
-         on-load="_imgChange">
+    <iron-image src="[[src]]"
+                placeholder="[[placeholder]]"
+                on-loaded-changed="_loaded"
+                preload
+                fade
+                prevent-load$="[[preventLoad]]"
+                crossorigin$="[[crossorigin]]"
+    ></iron-image>
     <div id="box"
          on-track="_move"
          faded$="[[!loaded]]">
       <div id="drag"
-           faded$="[[!canDrag]]"
-           style$="left: [[_calcPX(loaded, x)]]; top: [[_calcPX(loaded, y)]];">
-        <div id="icon-container">
-          <div id="dragIcon"
-               on-dblclick="reset"></div>
-        </div>
+           style$="left: [[_calcPercentage(x)]]; top: [[_calcPercentage(y)]];">
+        <div id="dragIcon"
+             on-dblclick="reset"></div>
       </div>
     </div>
   </template>
@@ -106,105 +113,165 @@
      * @polymer
      * @demo demo/index.html
      */
-    class SkeletonFocal extends Polymer.mixinBehaviors(
-      [Polymer.IronResizableBehavior],
-      Polymer.GestureEventListeners(Polymer.Element)
-    ) {
+    class SkeletonFocal extends Polymer.mixinBehaviors([
+        Polymer.IronResizableBehavior,
+      ],
+      Polymer.GestureEventListeners(Polymer.Element)) {
+
       static get is() {
         return 'skeleton-focal';
       }
 
       static get properties() {
         return {
+          /**
+           * The URL of an image.
+           */
           src: {
+            type: String,
+            value: '',
+          },
+
+          /**
+           * This image will be used as a background/placeholder until the src
+           * image has loaded.  Use of a data-URI for placeholder is encouraged
+           * for instant rendering.
+           */
+          placeholder: {
             type: String,
             value: null,
           },
-          data: {
-            type: Object,
+
+          /**
+           * When true, the image is prevented from loading and any placeholder is
+           * shown.  This may be useful when a binding to the src property is known
+           * to be invalid, to prevent 404 requests.
+           */
+          preventLoad: {
+            type: Boolean,
+            value: false,
+          },
+
+          /**
+           * CORS enabled images support: https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
+           */
+          crossorigin: {
+            type: String,
             value: null,
           },
+
+          /**
+           * X Axis position (0 - 1)
+           */
           x: {
             type: Number,
             value: 0.5,
             reflectToAttribute: true,
             notify: true,
           },
+
+          /**
+           * Y Axis position (0 - 1)
+           */
           y: {
             type: Number,
             value: 0.5,
             reflectToAttribute: true,
             notify: true,
           },
+
+          /**
+           * Read-only value that is true when the image is loaded.
+           */
           loaded: {
             type: Boolean,
             value: false,
-          },
-          canDrag: {
-            type: Boolean,
-            value: false,
+            notify: true,
+            readOnly: true,
           },
         };
       }
 
-      ready() {
-        super.ready();
+      constructor() {
+        super();
         this.addEventListener('iron-resize', (e) => this._recalculatePosition());
       }
 
-      constructor() {
-        super();
-      }
-
+      /**
+       * Recalculate and change position
+       *
+       * @private
+       */
       _recalculatePosition() {
         const drag = this.shadowRoot.querySelector('#drag');
-        drag.style.left = this._calcPX(true, this.x);
-        drag.style.top = this._calcPX(true, this.y);
-        this.canDrag = true;
+        drag.style.left = this._calcPercentage(this.x);
+        drag.style.top = this._calcPercentage(this.y);
       }
 
-      _imgChange(event) {
-        this.loaded = true;
-        Polymer.RenderStatus.afterNextRender(event, () => {
-          setTimeout(() => {
-            this._recalculatePosition();
-          }, 3000);
-        });
+      /**
+       * Listen for loaded event and recalculate position
+       *
+       * @param {object} e
+       * @private
+       */
+      _loaded(e) {
+        const status = !!e.detail.value;
+        this._setLoaded(status);
+        if (status) this._recalculatePosition();
       }
 
-      _calcPX(loaded, value) {
-        if (!loaded) return;
-
+      /**
+       * Returns the percentage that will to position the icon
+       *
+       * @param {number} value
+       * @return {string}
+       * @private
+       */
+      _calcPercentage(value) {
         return `${value * 100}%`;
       }
 
+      /**
+       * Recalculate the coordinates after is dragged
+       *
+       * @param {object} event
+       * @private
+       */
       _move(event) {
-        const data = event.detail;
-        const y = data.ddy ? data.ddy : 0;
-        const x = data.ddx ? data.ddx : 0;
         const width = this.offsetWidth;
         const height = this.offsetHeight;
+        const y = event.detail.ddy ? event.detail.ddy : 0;
+        const x = event.detail.ddx ? event.detail.ddx : 0;
         let finalY = y / height;
         let finalX = x / width;
         let finalTop = this.y + finalY;
         let finalLeft = this.x + finalX;
-
-        if (finalTop < 0) {
-          finalTop = 0;
-        } else if (finalTop > 1) {
-          finalTop = 1;
-        }
-
-        if (finalLeft < 0) {
-          finalLeft = 0;
-        } else if (finalLeft > 1) {
-          finalLeft = 1;
-        }
+        finalTop = this._normalize(finalTop);
+        finalLeft = this._normalize(finalLeft);
 
         this.y = Number(finalTop.toFixed(3));
         this.x = Number(finalLeft.toFixed(3));
       }
 
+      /**
+       * Returns a valid value
+       *
+       * @param {number} value
+       * @return {*}
+       * @private
+       */
+      _normalize(value) {
+        if (value < 0) {
+          value = 0;
+        } else if (value > 1) {
+          value = 1;
+        }
+        return value;
+      }
+
+      /**
+       * Reset position
+       */
       reset() {
         this.y = 0.5;
         this.x = 0.5;

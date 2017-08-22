@@ -11,12 +11,20 @@
   <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
   <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
   <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../../iron-image/iron-image.html">
   <link rel="import" href="../skeleton-focal.html">
 
   <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
-      #crop {
+      iron-image {
+        display: block;
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        width: inherit;
+        height: inherit;
         max-width: 100%;
+        --iron-image-width: 100%;
       }
     </style>
   </custom-style>
@@ -34,7 +42,11 @@
             x="{{x}}"
             y="{{y}}"></skeleton-focal>
 
-          <img id="crop" src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&auto=format&fit=crop&w=500&h=200&q=80&cs=tinysrgb&fp-x=[[x]]&fp-y=[[y]]&fp-debug=true">
+          <iron-image
+            src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&auto=format&fit=crop&w=500&h=200&q=80&cs=tinysrgb&fp-x=[[x]]&fp-y=[[y]]&fp-debug=true"
+            preload
+            fade>
+          </iron-image>
 
           <h3>Focal point coordinates</h3>
           <ul>
