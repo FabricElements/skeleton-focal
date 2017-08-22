@@ -19,7 +19,21 @@
   </template>
 </test-fixture>
 
+<test-fixture id="basicImage">
+  <template>
+    <skeleton-focal src="images/testing.jpg"></skeleton-focal>
+  </template>
+</test-fixture>
+
 <script>
+
+  function getCenter (box) {
+    return {
+      x: box.x + (box.width / 2),
+      y: box.y + (box.height / 2)
+    }
+  }
+
   suite('basic behavior', function () {
 
     test('instantiating the element with default properties works', function () {
@@ -28,6 +42,30 @@
       assert.equal(element.y, 0.5);
     });
 
+  });
+
+  suite('dragging behavior', function () {
+    test('the handle center should be aligned with the image center by default', function (done) {
+      var element = fixture('basicImage');
+      var handle = element.shadowRoot.querySelector('#dragIcon')
+      var image = element.shadowRoot.querySelector('iron-image')
+
+      image.addEventListener('loaded-changed', function onLoadedChanged() {
+        if (!image.loaded) return
+
+        const imageBounds = image.getBoundingClientRect()
+        const handleBounds = handle.getBoundingClientRect()
+
+        expect(
+          getCenter(imageBounds)
+        ).to.deep.equal(
+          getCenter(handleBounds)
+        )
+
+        done()
+      })
+
+    })
   });
 </script>
 
