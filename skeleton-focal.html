@@ -25,21 +25,6 @@
         };
       }
 
-      :host * {
-        -webkit-user-select: none;
-        -webkit-user-drag: none;
-      }
-
-      #box {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 3;
-      }
-
       #drag {
         display: block;
         position: absolute;
@@ -78,6 +63,8 @@
         height: inherit;
         max-width: 100%;
         --iron-image-width: 100%;
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
       }
 
       [faded] {
@@ -88,19 +75,17 @@
     <iron-image src="[[src]]"
                 placeholder="[[placeholder]]"
                 on-loaded-changed="_loaded"
-                preload
-                fade
                 prevent-load$="[[preventLoad]]"
                 crossorigin$="[[crossorigin]]"
+                preload
+                fade
     ></iron-image>
-    <div id="box"
-         faded$="[[!loaded]]">
-      <div id="drag"
-           style$="left: [[_calcPercentage(x)]]; top: [[_calcPercentage(y)]];">
-        <div id="dragIcon"
-             on-track="_move"
-             on-dblclick="reset"></div>
-      </div>
+    <div id="drag"
+         faded$="[[!loaded]]"
+         style$="left: [[_calcPercentage(x)]]; top: [[_calcPercentage(y)]];"
+         on-track="_move">
+      <div id="dragIcon"
+           on-dblclick="reset"></div>
     </div>
   </template>
 
