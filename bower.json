@@ -1,10 +1,11 @@
 {
-  "name": "fabric-focal",
+  "name": "skeleton-focal",
   "description": "Focal point for your images",
-  "main": "fabric-focal.html",
+  "main": "skeleton-focal.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "iron-resizable-behavior": "^2.0.1"
+    "iron-resizable-behavior": "^2.0.1",
+    "iron-image": "PolymerElements/iron-image#^2.1.2"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
