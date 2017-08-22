@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>skeleton-focal test</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../skeleton-focal.html">
+</head>
+<body>
+
+<test-fixture id="basicDefault">
+  <template>
+    <skeleton-focal></skeleton-focal>
+  </template>
+</test-fixture>
+
+<script>
+  suite('basic behavior', function () {
+
+    test('instantiating the element with default properties works', function () {
+      var element = fixture('basicDefault');
+      assert.equal(element.x, 0.5);
+      assert.equal(element.y, 0.5);
+    });
+
+  });
+</script>
+
+</body>
+</html>
