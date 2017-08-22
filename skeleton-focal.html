@@ -94,11 +94,11 @@
                 crossorigin$="[[crossorigin]]"
     ></iron-image>
     <div id="box"
-         on-track="_move"
          faded$="[[!loaded]]">
       <div id="drag"
            style$="left: [[_calcPercentage(x)]]; top: [[_calcPercentage(y)]];">
         <div id="dragIcon"
+             on-track="_move"
              on-dblclick="reset"></div>
       </div>
     </div>
