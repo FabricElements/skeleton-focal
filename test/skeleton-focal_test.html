@@ -8,6 +8,7 @@
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../iron-test-helpers/mock-interactions.js"></script>
 
   <link rel="import" href="../skeleton-focal.html">
 </head>
@@ -37,35 +38,65 @@
   suite('basic behavior', function () {
 
     test('instantiating the element with default properties works', function () {
-      var element = fixture('basicDefault');
-      assert.equal(element.x, 0.5);
-      assert.equal(element.y, 0.5);
+      const element = fixture('basicDefault');
+
+      expect(element.x).to.equal(0.5);
+      expect(element.y).to.equal(0.5);
     });
 
   });
 
   suite('dragging behavior', function () {
+
     test('the handle center should be aligned with the image center by default', function (done) {
-      var element = fixture('basicImage');
-      var handle = element.shadowRoot.querySelector('#dragIcon')
-      var image = element.shadowRoot.querySelector('iron-image')
+      const element = fixture('basicImage');
+      const handle = element.shadowRoot.querySelector('#dragIcon');
+      const image = element.shadowRoot.querySelector('iron-image');
 
       image.addEventListener('loaded-changed', function onLoadedChanged() {
         if (!image.loaded) return
 
-        const imageBounds = image.getBoundingClientRect()
-        const handleBounds = handle.getBoundingClientRect()
+        const imageBounds = image.getBoundingClientRect();
+        const handleBounds = handle.getBoundingClientRect();
 
         expect(
           getCenter(imageBounds)
         ).to.deep.equal(
           getCenter(handleBounds)
-        )
+        );
 
-        done()
-      })
+        done();
+      });
+    });
 
-    })
+    test('when dragging the handle to the top left x and y properties should update', function (done) {
+      const element = fixture('basicImage');
+      const handle = element.shadowRoot.querySelector('#drag');
+      const image = element.shadowRoot.querySelector('iron-image');
+
+      image.addEventListener('loaded-changed', function onLoadedChanged() {
+        if (!image.loaded) return
+
+        const imageBounds = image.getBoundingClientRect();
+        const imageTopLeftCorner = {
+          x: imageBounds.x,
+          y: imageBounds.y
+        };
+
+        MockInteractions.track(handle, -imageBounds.width / 2, -imageBounds.height / 2);
+
+        const handleBounds = handle.getBoundingClientRect();
+
+        expect(element.x).to.equal(0);
+        expect(element.y).to.equal(0);
+
+        expect(getCenter(handleBounds)).to.deep.equal(imageTopLeftCorner);
+
+        done();
+
+      });
+    });
+
   });
 </script>
 
