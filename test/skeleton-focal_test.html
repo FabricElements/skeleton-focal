@@ -14,91 +14,117 @@
 </head>
 <body>
 
-<test-fixture id="basicDefault">
-  <template>
-    <skeleton-focal></skeleton-focal>
-  </template>
-</test-fixture>
+  <test-fixture id="basicDefault">
+    <template>
+      <skeleton-focal></skeleton-focal>
+    </template>
+  </test-fixture>
 
-<test-fixture id="basicImage">
-  <template>
-    <skeleton-focal src="images/testing.jpg"></skeleton-focal>
-  </template>
-</test-fixture>
+  <test-fixture id="basicImage">
+    <template>
+      <skeleton-focal src="images/testing.jpg"></skeleton-focal>
+    </template>
+  </test-fixture>
 
-<script>
+  <script>
 
-  function getCenter (box) {
-    return {
-      x: box.x + (box.width / 2),
-      y: box.y + (box.height / 2)
+    function getCenter (box) {
+      return {
+        x: box.x + (box.width / 2),
+        y: box.y + (box.height / 2)
+      }
     }
-  }
 
-  suite('basic behavior', function () {
+    suite('basic behavior', function () {
 
-    test('instantiating the element with default properties works', function () {
-      const element = fixture('basicDefault');
+      test('instantiating the element with default properties works', function () {
+        const element = fixture('basicDefault');
 
-      expect(element.x).to.equal(0.5);
-      expect(element.y).to.equal(0.5);
-    });
-
-  });
-
-  suite('dragging behavior', function () {
-
-    test('the handle center should be aligned with the image center by default', function (done) {
-      const element = fixture('basicImage');
-      const handle = element.shadowRoot.querySelector('#dragIcon');
-      const image = element.shadowRoot.querySelector('iron-image');
-
-      image.addEventListener('loaded-changed', function onLoadedChanged() {
-        if (!image.loaded) return
-
-        const imageBounds = image.getBoundingClientRect();
-        const handleBounds = handle.getBoundingClientRect();
-
-        expect(
-          getCenter(imageBounds)
-        ).to.deep.equal(
-          getCenter(handleBounds)
-        );
-
-        done();
+        expect(element.x).to.equal(0.5);
+        expect(element.y).to.equal(0.5);
       });
+
     });
 
-    test('when dragging the handle to the top left x and y properties should update', function (done) {
-      const element = fixture('basicImage');
-      const handle = element.shadowRoot.querySelector('#drag');
-      const image = element.shadowRoot.querySelector('iron-image');
+    suite('dragging behavior', function () {
 
-      image.addEventListener('loaded-changed', function onLoadedChanged() {
-        if (!image.loaded) return
+      test('the handle center should be aligned with the image center by default', function (done) {
+        const element = fixture('basicImage');
+        const handle = element.shadowRoot.querySelector('#dragIcon');
+        const image = element.shadowRoot.querySelector('iron-image');
 
-        const imageBounds = image.getBoundingClientRect();
-        const imageTopLeftCorner = {
-          x: imageBounds.x,
-          y: imageBounds.y
-        };
+        image.addEventListener('loaded-changed', function onLoadedChanged() {
+          if (!image.loaded) return
 
-        MockInteractions.track(handle, -imageBounds.width / 2, -imageBounds.height / 2);
+          const imageBounds = image.getBoundingClientRect();
+          const handleBounds = handle.getBoundingClientRect();
 
-        const handleBounds = handle.getBoundingClientRect();
+          expect(
+            getCenter(imageBounds)
+          ).to.deep.equal(
+            getCenter(handleBounds)
+          );
 
-        expect(element.x).to.equal(0);
-        expect(element.y).to.equal(0);
-
-        expect(getCenter(handleBounds)).to.deep.equal(imageTopLeftCorner);
-
-        done();
-
+          done();
+        });
       });
-    });
 
-  });
-</script>
+      test('when dragging the handle to the top left x and y properties should update', function (done) {
+        const element = fixture('basicImage');
+        const handle = element.shadowRoot.querySelector('#drag');
+        const image = element.shadowRoot.querySelector('iron-image');
+
+        image.addEventListener('loaded-changed', function onLoadedChanged() {
+          if (!image.loaded) return
+
+          const imageBounds = image.getBoundingClientRect();
+          const imageTopLeftCorner = {
+            x: imageBounds.x,
+            y: imageBounds.y
+          };
+
+          MockInteractions.track(handle, -imageBounds.width / 2, -imageBounds.height / 2);
+
+          const handleBounds = handle.getBoundingClientRect();
+
+          expect(element.x).to.equal(0);
+          expect(element.y).to.equal(0);
+
+          expect(getCenter(handleBounds)).to.deep.equal(imageTopLeftCorner);
+
+          done();
+        });
+      });
+
+      test('when dragging the handle to the bottom left x and y properties should update', function (done) {
+        const element = fixture('basicImage');
+        const handle = element.shadowRoot.querySelector('#drag');
+        const image = element.shadowRoot.querySelector('iron-image');
+
+        image.addEventListener('loaded-changed', function onLoadedChanged() {
+          if (!image.loaded) return
+
+          const imageBounds = image.getBoundingClientRect();
+          const imageBottomLeftCorner = {
+            x: imageBounds.x,
+            y: imageBounds.y + imageBounds.height
+          };
+
+          MockInteractions.track(handle, -imageBounds.width / 2, imageBounds.height / 2);
+
+          const handleBounds = handle.getBoundingClientRect();
+
+          expect(element.x).to.equal(0);
+          expect(element.y).to.equal(1);
+
+          expect(getCenter(handleBounds)).to.deep.equal(imageBottomLeftCorner);
+
+          done()
+        });
+      });
+
+    });
+  </script>
 
 </body>
 </html>
