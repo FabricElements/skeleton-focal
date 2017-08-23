@@ -150,6 +150,33 @@
         });
       });
 
+      test('when dragging the handle to the bottom right x and y properties should update', function (done) {
+        const element = fixture('basicImage');
+        const handle = element.shadowRoot.querySelector('#drag');
+        const image = element.shadowRoot.querySelector('iron-image');
+
+        image.addEventListener('loaded-changed', function onLoadedChanged() {
+          if (!image.loaded) return
+
+          const imageBounds = image.getBoundingClientRect();
+          const imageBottomRightCorner = {
+            x: imageBounds.x + imageBounds.width,
+            y: imageBounds.y + imageBounds.height
+          };
+
+          MockInteractions.track(handle, imageBounds.width / 2, imageBounds.height / 2);
+
+          const handleBounds = handle.getBoundingClientRect();
+
+          expect(element.x).to.equal(1);
+          expect(element.y).to.equal(1);
+
+          expect(getCenter(handleBounds)).to.deep.equal(imageBottomRightCorner);
+
+          done()
+        });
+      });
+
     });
   </script>
 
