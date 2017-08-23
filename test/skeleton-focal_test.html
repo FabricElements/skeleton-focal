@@ -30,8 +30,8 @@
 
     function getCenter(box) {
       return {
-        x: box.x + (box.width / 2),
-        y: box.y + (box.height / 2),
+        x: box.left + (box.width / 2),
+        y: box.top + (box.height / 2),
       };
     }
 
@@ -76,8 +76,8 @@
 
           const imageBounds = image.getBoundingClientRect();
           const imageTopLeftCorner = {
-            x: imageBounds.x,
-            y: imageBounds.y,
+            x: imageBounds.left,
+            y: imageBounds.top,
           };
 
           MockInteractions.track(handle, -imageBounds.width / 2, -imageBounds.height / 2);
@@ -102,8 +102,8 @@
 
           const imageBounds = image.getBoundingClientRect();
           const imageBottomLeftCorner = {
-            x: imageBounds.x,
-            y: imageBounds.y + imageBounds.height,
+            x: imageBounds.left,
+            y: imageBounds.top + imageBounds.height,
           };
 
           MockInteractions.track(handle, -imageBounds.width / 2, imageBounds.height / 2);
@@ -128,8 +128,8 @@
 
           const imageBounds = image.getBoundingClientRect();
           const imageTopRightCorner = {
-            x: imageBounds.x + imageBounds.width,
-            y: imageBounds.y,
+            x: imageBounds.left + imageBounds.width,
+            y: imageBounds.top,
           };
 
           MockInteractions.track(handle, imageBounds.width / 2, -imageBounds.height / 2);
@@ -154,8 +154,8 @@
 
           const imageBounds = image.getBoundingClientRect();
           const imageBottomRightCorner = {
-            x: imageBounds.x + imageBounds.width,
-            y: imageBounds.y + imageBounds.height,
+            x: imageBounds.left + imageBounds.width,
+            y: imageBounds.top + imageBounds.height,
           };
 
           MockInteractions.track(handle, imageBounds.width / 2, imageBounds.height / 2);
