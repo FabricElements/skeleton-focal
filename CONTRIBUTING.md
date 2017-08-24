@@ -33,3 +33,22 @@ Or... If you are filing an issue to report a bug, be sure to provide:
 If a proposed change contains multiple commits, please **squash commits to as few as is necessary** to succinctly express the change. 
 
 We really appreciate your interest in contributing and improving the project.
+
+## Squashing commits
+
+To squash four commits into one, do the following:
+
+    $ git rebase -i HEAD~4
+
+In the text editor that comes up, replace the words "pick" with "squash" next to the commits you want to squash into the commit before it. Save and close the editor, and git will combine the "squash"'ed commits with the one before it. Git will then give you the opportunity to change your commit message to something like, "Issue #100: Fixed retweet bug."
+
+**Important**: If you've already pushed commits to GitHub, and then squash them locally, you will have to force the push to your branch.
+
+    $ git push origin branch-name --force
+
+Helpful hint: You can always edit your last commit message, before pushing, by using:
+
+    $ git commit --amend
+
+### See also:
+[Git Book Chapter 6.4: Git Tools - Rewriting History](http://git-scm.com/book/en/Git-Tools-Rewriting-History)
