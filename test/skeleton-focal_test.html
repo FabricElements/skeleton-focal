@@ -11,6 +11,12 @@
   <script src="../../iron-test-helpers/mock-interactions.js"></script>
 
   <link rel="import" href="../skeleton-focal.html">
+  <style>
+    skeleton-focal {
+      width: 400px;
+      height: 200px;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,11 +28,12 @@
 
   <test-fixture id="basicImage">
     <template>
-      <skeleton-focal src="images/testing.jpg"></skeleton-focal>
+      <skeleton-focal src="https://source.unsplash.com/random/300x200"></skeleton-focal>
     </template>
   </test-fixture>
 
   <script>
+    /* eslint-disable no-undef,max-len */
 
     function getCenter(box) {
       return {
