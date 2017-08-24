@@ -1,6 +1,38 @@
+[![Build Status](https://travis-ci.org/FabricElements/skeleton-focal.svg?branch=master)](https://travis-ci.org/FabricElements/skeleton-focal)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/FabricElements/skeleton-focal)
+
 ## \<skeleton-focal\>
 
-A [Polymer 2](http://polymer-project.org) element that provides a focal point for your images.
+`skeleton-focal` is a [Polymer 2](http://polymer-project.org) element that provides a focal point for your images.
+Allows you to drag the focal point and returns the value in attributes that reflects the selected `x` and `y` coordinates in a 0-1 range.
+
+<!---
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../iron-image/iron-image.html">
+    <link rel="import" href="skeleton-focal.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<skeleton-focal src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&auto=format&fit=crop&w=1000&h=600&q=80&cs=tinysrgb&crop=" x="{{x}}" y="{{y}}"></skeleton-focal>
+
+<h3>Focal point coordinates</h3>
+<ul>
+  <li><strong>X:</strong> [[x]]</li>
+  <li><strong>Y:</strong> [[y]]</li>
+</ul>
+
+<iron-image
+  src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&auto=format&fit=crop&w=500&h=200&q=80&cs=tinysrgb&fp-x=[[x]]&fp-y=[[y]]&fp-debug=true"
+  preload
+  fade>
+</iron-image>
+```
 
 ![skeleton-focal](http://i.imgur.com/CD8GRl8.jpg)
 
