@@ -1,7 +1,7 @@
 {
   "name": "skeleton-focal",
   "description": "Focal point for your images",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "eslint": "^4.5.0",
@@ -13,5 +13,8 @@
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1"
   }
 }

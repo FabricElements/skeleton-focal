@@ -1,6 +1,23 @@
 {
   "name": "skeleton-focal",
+  "version": "2.0.0",
+  "license": "BSD-3-Clause",
+  "private": true,
+  "authors": [
+    "The FabricElements Authors"
+  ],
   "description": "Focal point for your images",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "media",
+    "FabricElements",
+    "focal point"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:FabricElements/skeleton-focal.git"
+  },
   "main": "skeleton-focal.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
