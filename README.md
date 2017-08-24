@@ -37,6 +37,10 @@ Import it into the `<head>` of your page
 * `placeholder` (string) - This image will be used as a background/placeholder until the src image has loaded.  Use of a data-URI for placeholder is encouraged for instant rendering.
 * `preventLoad` (boolean) - When true, the image is prevented from loading and any placeholder is shown.  This may be useful when a binding to the src property is known to be invalid, to prevent 404 requests.
 
+## Contributing
+
+Please check [CONTRIBUTING](./CONTRIBUTING.md).
+
 ## License
 
-Released under the [BSD 3-Clause License](https://github.com/FabricElements/skeleton-focal/blob/master/LICENSE.md).
+Released under the [BSD 3-Clause License](./LICENSE.md).
