@@ -1,8 +1,5 @@
 language: node_js
-sudo: required
-before_script:
-  - npm install -g polymer-cli
-  - polymer install
+sudo: false
 node_js: stable
 addons:
   firefox: latest
@@ -11,9 +8,9 @@ addons:
       - google-chrome
     packages:
       - google-chrome-stable
+before_script:
+  - npm install -g polymer-cli
+  - polymer install
+  - polymer lint
 script:
-  - xvfb-run polymer test
-  - >-
-    if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then polymer test;
-    fi
-dist: trusty
+  - xvfb-run polymer test --skip-plugin sauce
