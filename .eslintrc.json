@@ -24,9 +24,23 @@
       }
     ],
     "no-var": "off",
-    "require-jsdoc": "off"
+    "require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": false,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": false
+      }
+    }]
   },
   "globals": {
-    "Polymer": true
+    "Polymer": true,
+    "suite": true,
+    "test": true,
+    "fixture": true,
+    "expect": true,
+    "setup": true,
+    "MockInteractions": true,
+    "WCT": true
   }
 }
