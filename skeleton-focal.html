@@ -98,10 +98,16 @@
      * @demo demo/index.html
      */
     class SkeletonFocal extends Polymer.GestureEventListeners(Polymer.Element) {
+      /**
+       * @return {string}
+       */
       static get is() {
         return 'skeleton-focal';
       }
 
+      /**
+       * @return {object}
+       */
       static get properties() {
         return {
           /**
@@ -172,6 +178,9 @@
         };
       }
 
+      /**
+       * Constructor
+       */
       constructor() {
         super();
       }

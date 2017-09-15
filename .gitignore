@@ -6,6 +6,11 @@ logs
 *.log
 npm-debug.log*
 
+# lock files
+.package-lock.json
+package-lock.json
+yarn.lock
+
 # Runtime data
 pids
 *.pid
@@ -43,18 +48,16 @@ bower_components
 # Optional REPL history
 .node_repl_history
 
-# Package lock
-.package-lock.json
-
-
 # Ignore Public Assets
 .sass-cache
 .tmp
 
 
 ############################################
-## IDEA temporal files
+## Editor config
 ############################################
 
-## Directory-based project format:
+## IDEA:
 .idea/
+## Visual Studio Code:
+.vscode/
