@@ -6,14 +6,13 @@
 
   <title>skeleton-focal demo</title>
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
-  <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
-  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-  <link rel="import" href="../../iron-image/iron-image.html">
-  <link rel="import" href="../skeleton-focal.html">
-
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script type="module">
+    import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+    import '@polymer/iron-demo-helpers/demo-snippet';
+    import '@polymer/polymer/lib/elements/dom-bind.js';
+    import '@polymer/iron-image/iron-image.js';
+    import '../skeleton-focal.js';</script>
   <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       iron-image {
@@ -30,7 +29,6 @@
   </custom-style>
 </head>
 <body>
-
 <div class="vertical-section-container centered">
   <h3>Basic skeleton-focal demo</h3>
   <demo-snippet>
@@ -38,14 +36,12 @@
       <dom-bind>
         <template>
           <skeleton-focal
-            src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&auto=format&fit=crop&w=1000&h=600&q=80&cs=tinysrgb&crop="
-            x="{{x}}"
-            y="{{y}}"></skeleton-focal>
+            src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&amp;auto=format&amp;fit=crop&amp;w=1000&amp;h=600&amp;q=80&amp;cs=tinysrgb&amp;crop="
+            x="{{x}}" y="{{y}}"></skeleton-focal>
 
           <iron-image
-            src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&auto=format&fit=crop&w=500&h=200&q=80&cs=tinysrgb&fp-x=[[x]]&fp-y=[[y]]&fp-debug=true"
-            preload
-            fade>
+            src="https://images.unsplash.com/photo-1499709453582-ba507bcee46b?dpr=2&amp;auto=format&amp;fit=crop&amp;w=500&amp;h=200&amp;q=80&amp;cs=tinysrgb&amp;fp-x=[[x]]&amp;fp-y=[[y]]&amp;fp-debug=true"
+            preload="" fade="">
           </iron-image>
 
           <h3>Focal point coordinates</h3>
