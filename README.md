@@ -3,7 +3,7 @@
 
 ## \<skeleton-focal\>
 
-`skeleton-focal` is a [Polymer 2](http://polymer-project.org) element that provides a focal point for your images.
+`skeleton-focal` is a [Polymer 3](http://polymer-project.org) element that provides a focal point for your images.
 Allows you to drag the focal point and returns the value in attributes that reflects the selected `x` and `y` coordinates in a 0-1 range.
 
 <!---
@@ -36,10 +36,10 @@ Allows you to drag the focal point and returns the value in attributes that refl
 
 ## Installation
 
-Install skeleton-focal with Bower
+Install skeleton-focal with npm
 
 ```shell
-$ bower install --save FabricElements/skeleton-focal
+$ npm install FabricElements/skeleton-focal --save
 ```
 
 ## Usage
@@ -47,7 +47,7 @@ $ bower install --save FabricElements/skeleton-focal
 Import it into the `<head>` of your page
 
 ```html
-<link rel="import" href="bower_components/skeleton-focal/skeleton-focal.html">
+<script type="module" src="node_modules/@fabricelements/skeleton-focal/skeleton-focal.js"></script>
 ```
 
 ### Example: basic usage

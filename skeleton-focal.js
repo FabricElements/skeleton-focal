@@ -1,7 +1,8 @@
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+/* eslint-disable max-len */
+/* eslint-disable-next-line max-len */
+import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import '@polymer/iron-image/iron-image.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 /**
  * `skeleton-focal`
  *
@@ -11,6 +12,9 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
  * @demo demo/index.html
  */
 class SkeletonFocal extends GestureEventListeners(PolymerElement) {
+  /**
+   * @return {!HTMLTemplateElement}
+   */
   static get template() {
     return html`
     <style is="custom-style">

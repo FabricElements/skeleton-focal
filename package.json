@@ -1,7 +1,7 @@
 {
   "name": "@fabricelements/skeleton-focal",
   "description": "Focal point for your images",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "license": "BSD-3-Clause",
   "main": "skeleton-focal.js",
   "author": "The FabricElements Authors",
