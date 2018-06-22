@@ -29,12 +29,14 @@
     "lint": "npm run lint:javascript && polymer lint",
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
   },
   "dependencies": {
-    "gulp": "^3.9.1",
+    "@polymer/gen-typescript-declarations": "^1.2.2",
+    "@polymer/iron-image": "^3.0.0-pre.18",
     "@polymer/polymer": "^3.0.0",
-    "@polymer/iron-image": "^3.0.0-pre.18"
+    "gulp": "^3.9.1"
   },
   "resolutions": {
     "inherits": "2.0.3",
