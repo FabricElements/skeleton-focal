@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/FabricElements/skeleton-focal.svg?branch=master)](https://travis-ci.org/FabricElements/skeleton-focal)
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/FabricElements/skeleton-focal)
+[![Build Status](https://travis-ci.org/FabricElements/skeleton-focal.svg?branch=master)](https://travis-ci.org/FabricElements/skeleton-focal) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/FabricElements/skeleton-focal) [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/FabricElementsskeleton-focal)
 
 ## \<skeleton-focal\>
 
